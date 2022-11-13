@@ -7,6 +7,7 @@ import { Box, Card, Container, Typography, Stack } from "@mui/material";
 import { useDispatch, useSelector } from "../redux/store";
 import { getDatas } from "../redux/slices/data";
 import CaptionView from "./CaptionView";
+import { csv2object } from "../util";
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled("div")(({ theme }) => ({
@@ -33,6 +34,7 @@ export default function Main() {
   }, [dispatch]);
 
   console.log(datas.raw_caption);
+  console.log(datas.data, csv2object(datas.data));
 
 
   return (
