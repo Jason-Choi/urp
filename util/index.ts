@@ -1,4 +1,4 @@
-import { csv2table } from "./csv2table"
+import { csv2object } from "./csv2object"
 import { getRandom, getIndex, deleteIndex, submitIndex } from "./call"
 
-export { csv2table, getRandom, getIndex, deleteIndex, submitIndex }
+export { csv2object, getRandom, getIndex, deleteIndex, submitIndex }

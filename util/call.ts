@@ -1,14 +1,17 @@
 import { ENDPOINT } from "../config"
 import axios from "axios"
+import { FetchData } from "../types"
 
 export const getRandom = async () => {
   const response = await axios.get(ENDPOINT.getRandom)
-  return response.data
+  const data: FetchData =  response.data
+  return data
 }
 
 export const getIndex = async (index: number) => {
   const response = await axios.get(ENDPOINT.getIndex(index))
-  return response.data
+  const data: FetchData =  response.data
+  return data
 }
 
 export const deleteIndex = async (index: number) => {
