@@ -32,17 +32,8 @@ export default function Main() {
     dispatch(getDatas());
   }, [dispatch]);
 
-  console.log("getData", datas);
+  console.log(datas.raw_caption);
 
-  const Tokenizer = require("sentence-tokenizer");
-  const tokenizer = new Tokenizer("Chuck");
-  const [sentences, setSentences] = useState([]);
-
-  tokenizer.setEntry(text);
-
-  useEffect(() => {
-    setSentences(tokenizer.getSentences());
-  }, []);
 
   return (
     <StyledRoot>
@@ -55,7 +46,7 @@ export default function Main() {
           }}
         >
           {/* <SentenceList sentences={sentences} /> */}
-          <CaptionView />
+          <CaptionView caption={datas.raw_caption} />
         </Stack>
       </Container>
     </StyledRoot>

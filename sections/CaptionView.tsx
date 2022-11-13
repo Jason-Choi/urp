@@ -10,21 +10,17 @@ interface SelectedPhrase {
 
 const CaptionView = ({ caption }: { caption: string }) => {
 
-    const text = "This statistic shows the growth rate of the circulation of the monthly printed press in Belgium in 2015. In 2015, the magazine Goesting had the largest growth rate with 506.74 percent growth in comparison to 2014";
-
-
     const [sentences, setSentences] = useState<string[]>([]);
     const [selectedSentence, setSelectedSentence] = useState<number | undefined>(undefined);
     const [selectedPhrase, setSelectedPhrase] = useState<SelectedPhrase | undefined>(undefined);
 
-    const captionElement = useRef<HTMLParagraphElement>(null);
-    
 
     useEffect(() => {
+        if(caption === undefined) return;
         const tokenizer = new Tokenizer('Chuck');
-        tokenizer.setEntry(text);
+        tokenizer.setEntry(caption);
         setSentences(tokenizer.getSentences());
-    }, []);
+    }, [caption]);
 
     const handleSentenceClick = (sentenceIndex: number) => {
         console.log(sentenceIndex)
@@ -43,7 +39,7 @@ const CaptionView = ({ caption }: { caption: string }) => {
     }
 
     return (
-        <p ref={captionElement}>
+        <p>
             {sentences.map((sentence, index) => (
                 <span
                     key={`sentence${index}`}
