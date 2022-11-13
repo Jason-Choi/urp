@@ -7,7 +7,6 @@ export const csv2object = (csv: string): Table | undefined => {
   if (columnNames.length === 1 && columnNames[0] === " ")
     columnNames[0] = "value";
   const table: Table = { columnNames, rows: [] };
-  console.log(table);
 
   for (let i = 1; i < lines.length - 1; i++) {
     const key = lines[i].split(",")[0];
