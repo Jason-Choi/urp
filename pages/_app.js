@@ -1,3 +1,6 @@
+import "../sections/style.css";
+// scroll bar
+import "simplebar/src/simplebar.css";
 // next
 import Head from "next/head";
 import ThemeProvider from "../theme";
