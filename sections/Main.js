@@ -3,7 +3,9 @@ import SentenceList from "./SentenceList";
 // @mui
 import { alpha, styled } from "@mui/material/styles";
 import { Box, Card, Container, Typography, Stack } from "@mui/material";
-
+// redux
+import { useDispatch, useSelector } from "../redux/store";
+import { getDatas } from "../redux/slices/data";
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled("div")(({ theme }) => ({
@@ -23,6 +25,14 @@ const text =
 // ----------------------------------------------------------------------
 
 export default function Main() {
+  const dispatch = useDispatch();
+  const { datas } = useSelector((state) => state.data);
+  useEffect(() => {
+    dispatch(getDatas());
+  }, [dispatch]);
+
+  console.log("getData", datas);
+
   const Tokenizer = require("sentence-tokenizer");
   const tokenizer = new Tokenizer("Chuck");
   const [sentences, setSentences] = useState([]);
