@@ -6,6 +6,7 @@ import { Box, Card, Container, Typography, Stack } from "@mui/material";
 // redux
 import { useDispatch, useSelector } from "../redux/store";
 import { getDatas } from "../redux/slices/data";
+import CaptionView from "./CaptionView";
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled("div")(({ theme }) => ({
@@ -53,7 +54,8 @@ export default function Main() {
             mb: { xs: 5, md: 10 },
           }}
         >
-          <SentenceList sentences={sentences} />
+          {/* <SentenceList sentences={sentences} /> */}
+          <CaptionView />
         </Stack>
       </Container>
     </StyledRoot>
