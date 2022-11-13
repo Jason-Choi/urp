@@ -14,16 +14,6 @@ const StyledRoot = styled("div")(({ theme }) => ({
   padding: theme.spacing(10, 0),
 }));
 
-const StyledCard = styled(Card)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  textAlign: "center",
-  padding: theme.spacing(10, 5),
-}));
-
-const text =
-  `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut varius lorem at diam volutpat, a aliquam sem feugiat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Integer hendrerit volutpat diam sed gravida. Fusce leo ante, molestie vel consectetur a, semper viverra metus. Etiam facilisis malesuada lectus vel semper. In aliquet molestie accumsan. Phasellus rhoncus auctor rhoncus. Nunc suscipit metus sed libero feugiat, eget condimentum dolor dapibus. Etiam tristique dui vel diam faucibus egestas. Phasellus sit amet lobortis risus. Proin ultricies sem ac elementum pulvinar.` +
-  `Praesent sed lectus non justo tempus accumsan.`;
-
 // ----------------------------------------------------------------------
 
 export default function Main() {
@@ -34,23 +24,13 @@ export default function Main() {
     dispatch(getDatas());
   }, [dispatch]);
 
-  const { raw_caption } = datas;
+  const { data, raw_caption } = datas;
 
   useEffect(() => {
     if (raw_caption !== undefined) {
       setIsLoading((prev) => !prev);
     }
   }, [raw_caption]);
-
-  const Tokenizer = require("sentence-tokenizer");
-  const tokenizer = new Tokenizer("Chuck");
-  const [sentences, setSentences] = useState([]);
-
-  tokenizer.setEntry(text);
-
-  useEffect(() => {
-    setSentences(tokenizer.getSentences());
-  }, []);
 
   return (
     <StyledRoot>
@@ -65,11 +45,11 @@ export default function Main() {
               }}
             >
               {/* <SentenceList sentences={sentences} /> */}
-              <CaptionView />
+              <CaptionView caption={raw_caption} />
             </Stack>
           </Grid>
-          <Grid>
-            {isLoading ? <CSVTable raw_caption={raw_caption} /> : null}
+          <Grid item md={6}>
+            {isLoading ? <CSVTable data={data} /> : null}
           </Grid>
         </Grid>
       </Container>
