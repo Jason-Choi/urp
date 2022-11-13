@@ -1,16 +1,22 @@
 export interface Cell {
-    key: string
-    value: number
+  columnName: string;
+  value: number;
+}
+
+export interface Row {
+  key: string;
+  cells: Cell[];
 }
 
 export interface Table {
-    [columnName: string]: Cell[]
+  columnNames: string[];
+  rows: Row[];
 }
 
 export interface FetchData {
-    statista_index: number
-    title: string
-    raw_caption: string
-    data: string
-    axis_title: string
+  statista_index: number;
+  title: string;
+  raw_caption: string;
+  data: string;
+  axis_title: string;
 }
