@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 import { Box, Container, Typography } from "@mui/material";
 // routes
 // components
-import Logo from "../../components/logo";
-import Iconify from "../../components/iconify";
+import Logo from "../../components/Logo";
+import Iconify from "../../components/Iconify";
 
 // ----------------------------------------------------------------------
 
