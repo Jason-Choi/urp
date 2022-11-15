@@ -10,6 +10,7 @@ export interface Row {
 
 export interface Table {
   columnNames: string[];
+  keys: string[];
   rows: Row[];
 }
 

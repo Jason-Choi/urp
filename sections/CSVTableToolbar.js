@@ -1,15 +1,6 @@
 // @mui
 import {
-  Stack,
-  Button,
-  Select,
-  MenuItem,
-  Checkbox,
-  TextField,
-  InputLabel,
-  FormControl,
-  OutlinedInput,
-  InputAdornment,
+  InputAdornment, Stack, TextField
 } from "@mui/material";
 // components
 import Iconify from "../components/Iconify";

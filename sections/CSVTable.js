@@ -18,7 +18,7 @@ export default function CSVTable({ data }) {
   const result = csv2object(data);
 
   return (
-    <Card>
+    <Card sx={{ my: 2 }}>
       <CSVTableToolbar />
       <TableContainer component={Paper}>
         <Scrollbar sx={{ maxHeight: 400 }}>
@@ -27,7 +27,7 @@ export default function CSVTable({ data }) {
               <TableRow>
                 <TableCell align="center">&nbsp;</TableCell>
                 {result.columnNames.map((key) => {
-                  return <TableCell align="center">{key}</TableCell>;
+                  return <TableCell key={key} align="center">{key}</TableCell>;
                 })}
               </TableRow>
             </TableHead>
@@ -39,7 +39,7 @@ export default function CSVTable({ data }) {
                 >
                   <TableCell align="center">{row.key}</TableCell>
                   {row.cells.map(({ columnName, value }) => {
-                    return <TableCell align="center">{value}</TableCell>;
+                    return <TableCell key={`${row.key}${columnName}${value}`} align="center">{value}</TableCell>;
                   })}
                 </TableRow>
               ))}

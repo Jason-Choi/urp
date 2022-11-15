@@ -1,3 +1,5 @@
+import { grey } from '@mui/material/colors';
+import { Typography } from "@mui/material";
 import { RefObject, useEffect, useRef, useState } from "react";
 import Tokenizer from "sentence-tokenizer";
 
@@ -24,12 +26,11 @@ const CaptionView = ({ caption }: { caption: string }) => {
   }, [caption]);
 
   const handleSentenceClick = (sentenceIndex: number) => {
-    console.log(sentenceIndex);
-    setSelectedSentence(sentenceIndex);
+    if (selectedSentence === sentenceIndex) setSelectedSentence(undefined);
+    else setSelectedSentence(sentenceIndex);
   };
 
   const handleSentenceSelect = (sentenceIndex: number) => {
-    console.log(123);
     const selection = window.getSelection();
     if (selection) {
       const selectionStart = selection.anchorOffset;
@@ -40,9 +41,15 @@ const CaptionView = ({ caption }: { caption: string }) => {
   };
 
   return (
-    <p className="sentence-box">
+    <Typography paragraph={true} className="sentence-box" style={{ fontSize: 20, lineHeight: 3 }}>
       {sentences.map((sentence, index) => (
-        <span
+        <Typography
+          style={{
+            padding: 10,
+            borderRadius: 10,
+            backgroundColor: selectedSentence === index ? grey[100] : undefined,
+          }}
+          paragraph={true}
           key={`sentence${index}`}
           onMouseUp={(e) => {
             handleSentenceSelect(index);
@@ -52,9 +59,9 @@ const CaptionView = ({ caption }: { caption: string }) => {
           }}
         >
           {sentence}
-        </span>
+        </Typography>
       ))}
-    </p>
+    </Typography>
   );
 };
 
