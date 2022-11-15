@@ -1,14 +1,18 @@
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useMemo, useState } from "react"
 // @mui
 import { Button, Container, Grid, Stack } from "@mui/material"
 import { styled } from "@mui/material/styles"
 // redux
-import { getDatas } from "../redux/slices/data"
-import { useDispatch, useSelector } from "../redux/store"
 import CaptionView from "./CaptionView"
 import CSVTable from "./CSVTable"
 import Title from "./Title"
 import SentenceTypeSelector from "./SentenceTypeSelector"
+import { useRecoilState, useRecoilValue, useRecoilValueLoadable } from "recoil"
+import { dataState } from "../states/data"
+import caption2Object from "../util/caption2Object"
+import axiosInstance from "../util/axios"
+import csv2Object from "../util/csv2Object"
+import { Data } from "../types"
 // ----------------------------------------------------------------------
 
 const StyledRoot = styled("div")(({ theme }) => ({
@@ -18,46 +22,72 @@ const StyledRoot = styled("div")(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 export default function Main() {
-  const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(false)
-  const { datas } = useSelector((state: any) => state.data)
-  useEffect(() => {
-    dispatch(getDatas() as any)
-  }, [dispatch])
-  const { title, data, raw_caption } = datas
+  const [isLoaded, setIsLoaded] = useState(false)
+  const [data, setData] = useRecoilState(dataState)
 
   useEffect(() => {
-    if (raw_caption !== undefined) {
-      setIsLoading((prev) => !prev)
-    }
-  }, [raw_caption])
+    (async () => {
+      try {
+        const response = await axiosInstance.get("/api/randomproduct")
+        const responseData = response.data
+        const caption = caption2Object(responseData.raw_caption)
+        const table = csv2Object(responseData.data)
+
+        if (caption === undefined || table === undefined) return
+
+        const data: Data = {
+          index: responseData.statista_index,
+          title: responseData.title,
+          unit: responseData.axis_title,
+          caption,
+          table,
+        }
+        console.log(data)
+        setData(data)
+      } catch (e) {
+        console.log(e)
+      }
+    })()
+  }, [])
+
+  useEffect(() => {
+    if (data.caption.length > 0) setIsLoaded(true)
+  }, [data])
+
+
+
 
   return (
-    <StyledRoot>
-      <Container>
-        <Grid container spacing={3}>
-          <Grid item md={12}>
-            <Title title={title} />
-          </Grid>
-          <Grid item md={6}>
-            <Stack
-              direction="column"
-              spacing={3}
-              sx={{
-                textAlign: "center",
-                mb: { xs: 5, md: 10 },
-              }}
-            >
-              <CaptionView caption={raw_caption} />
-              
-            </Stack>
-          </Grid>
-          <Grid item md={6}>
-            <SentenceTypeSelector />
-            {isLoading ? <CSVTable data={data} /> : null}
-          </Grid>
-        </Grid>
-      </Container>
-    </StyledRoot>
+    <>
+      {isLoaded ? (
+        <StyledRoot>
+          <Container>
+            <Grid container spacing={3}>
+              <Grid item md={12}>
+                <Title title={data.title} />
+              </Grid>
+              <Grid item md={6}>
+                <Stack
+                  direction="column"
+                  spacing={3}
+                  sx={{
+                    textAlign: "center",
+                    mb: { xs: 5, md: 10 },
+                  }}
+                >
+                  <CaptionView />
+                </Stack>
+              </Grid>
+              <Grid item md={6}>
+                <SentenceTypeSelector />
+                <CSVTable />
+              </Grid>
+            </Grid>
+          </Container>
+        </StyledRoot>
+      ) : (
+        <div>loading...</div>
+      )}
+    </>
   )
 }

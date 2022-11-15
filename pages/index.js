@@ -1,8 +1,11 @@
 import { Box } from "@mui/material";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 
-import MainLayout from "../layouts/main/MainLayout";
 import Main from "../sections/Main";
+
+
+const MainLayout = dynamic(() => import("../layouts/main/MainLayout"), { ssr: false });
 
 Home.getLayout = (page) => <MainLayout> {page} </MainLayout>;
 

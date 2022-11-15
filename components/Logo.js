@@ -9,19 +9,15 @@ import { Box, Link } from "@mui/material";
 // ----------------------------------------------------------------------
 
 const Logo = forwardRef(({ sx, ...other }, ref) => {
-  const logo = (
+  return (
     <Box
       component="img"
       src="/logo.png"
       sx={{ width: 40, height: 40, cursor: "pointer", ...sx }}
     />
   );
-
-  return (
-    <NextLink href="/" passHref>
-      <Link sx={{ display: "contents" }}>{logo}</Link>
-    </NextLink>
-  );
 });
+
+Logo.displayName = "Logo";
 
 export default Logo;

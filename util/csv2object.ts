@@ -1,7 +1,7 @@
 import type { Table, Row } from "../types"
 import { parse } from "papaparse"
 
-export const csv2object = (csv: string): Table | undefined => {
+const csv2Object = (csv: string): Table | undefined => {
     const result = parse("key" + csv.slice(0, csv.length - 1), { header: true, delimiter: "," })
     if (result.errors.length > 0) {
         console.log(result.errors, result.data)
@@ -21,6 +21,7 @@ export const csv2object = (csv: string): Table | undefined => {
     if (columnNames.length === 1 && columnNames[0] === " ") {
         columnNames[0] = "value"
     }
-    console.log({ columnNames, keys, rows })
     return { columnNames, keys, rows }
 }
+
+export default csv2Object

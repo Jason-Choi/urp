@@ -1,4 +1,3 @@
-import { csv2object } from "../util";
 import {
   Table,
   TableBody,
@@ -13,9 +12,15 @@ import {
 
 import CSVTableToolbar from "./CSVTableToolbar";
 import Scrollbar from "../components/Scrollbar";
+import csv2Object from "../util/csv2Object";
+import { useRecoilState } from "recoil";
+import { getQueriedDataSelector } from "../states/data";
+import { selectedPhraseState } from "../states/interaction";
 
-export default function CSVTable({ data }) {
-  const result = csv2object(data);
+export default function CSVTable() {
+  const [data, setData] = useRecoilState(getQueriedDataSelector);
+  const [selectedPhrase, setSelectedPhrase] = useRecoilState(selectedPhraseState);
+
 
   return (
     <Card sx={{ my: 2 }}>
@@ -26,21 +31,23 @@ export default function CSVTable({ data }) {
             <TableHead>
               <TableRow>
                 <TableCell align="center">&nbsp;</TableCell>
-                {result.columnNames.map((key) => {
-                  return <TableCell key={key} align="center">{key}</TableCell>;
-                })}
+                {data.table.columnNames.map((columnName) => (
+                  <TableCell align="center" key={columnName}>
+                    {columnName}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
             <TableBody>
-              {result.rows.map((row, index) => (
+              {data.table.rows.map((row, index) => (
                 <TableRow
                   key={index}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{row.key}</TableCell>
-                  {row.cells.map(({ columnName, value }) => {
-                    return <TableCell key={`${row.key}${columnName}${value}`} align="center">{value}</TableCell>;
-                  })}
+                  {row.cells.map(({ columnName, value }) => (
+                    <TableCell key={`${row.key}${columnName}${value}`} align="center">{value}</TableCell>
+                  ))}
                 </TableRow>
               ))}
             </TableBody>
